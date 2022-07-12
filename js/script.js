@@ -1,17 +1,28 @@
 let pokemonList = [
-    Nidoran = {
+    {
         name: 'Nidoran',
-        category: [poison, pin],
-        weight: 7
+        category: ["poison", "pin"],
+        weight: 7,
+        height: 0.5
     },
-    Cherubi = {
+    {
         name: 'Cherubi',
-        category: [fairy, grass],
-        weight: 3.3
+        category: ["fairy", "grass"],
+        weight: 3.3,
+        height: 0.4
     },
-    Cubone = {
+    {
         name: 'Cubone',
-        category: [monster],
-        weight: 6.5
+        category: ["monster"],
+        weight: 6.5,
+        height: 0.4
     }
 ]
+
+for (let i = 0; i < pokemonList.length; i++) {
+    if (pokemonList[i].height <= 0.4) {
+        document.write(`${pokemonList[i].name}` + `(${pokemonList[i].height})` + "-a small pokemon" + " ");
+    } else {
+        document.write(`${pokemonList[i].name}` + `(${pokemonList[i].height})` + " ");
+    }
+}
