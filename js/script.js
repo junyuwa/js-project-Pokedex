@@ -23,22 +23,22 @@ const pokemonRepository = (function () {
         return pokemonList;
     }
     let add = function (item) {
-        if (typeof item === obejct && Object.keys === [name, category, weight, height]) {
-            pokemonList.push(item);
-        } else {
-            alert('Please enter the right pokemon info');
-        }
+        // if (typeof item === obejct && Object.keys === [name, category, weight, height]) {
+        pokemonList.push(item);
+        // } else {
+        //     alert('Please enter the right pokemon info');
+        // }
     };
 
     return {
-        getAll,
-        add
+        getAll: getAll,
+        add: add
     }
-})
+})();
 
 
 function printPokemonList(pokemon) {
     document.write(pokemon.name + '' + pokemon.height)
 };
 
-getAll.forEach(printPokemonList);
+pokemonRepository.getAll.forEach(printPokemonList);
