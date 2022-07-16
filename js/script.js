@@ -22,30 +22,40 @@ const pokemonRepository = (function () {
     let getAll = function () {
         return pokemonInfoList;
     }
-    let add = function (item) {
-        // if (typeof item === obejct && Object.keys === [name, category, weight, height]) {
-        pokemonInfoList.push(item);
-        // } else {
-        //     alert('Please enter the right pokemon info');
-        // }
+    let add = function (pokemon) {
+        if (typeof pokemon === 'obejct' && 'name' in pokemon) {
+            pokemonInfoList.push(item);
+        } else {
+            alert('Please enter the right pokemon info');
+        };
     };
 
-    let addListItem = function (pokemon) {
+    function showDetails(pokemon) {
+        console.log(pokemon.name);
+    }
 
+    let addListItem = function (pokemon) {
+        // add the list of pokemon to dom, created buttons for each pokemon
+        let pokemonList = document.querySelector('.pokemon-list');
+        let listItem = document.createElement('li');
+        let button = document.createElement('button');
+        button.innerText = pokemon.name;
+        button.classList.add('pokemonName');
+        listItem.appendChild(button);
+        pokemonList.appendChild(listItem);
+        // click on button to show details in console
+        button.addEventListener('click', function () {
+            showDetails(pokemon)
+        });
     };
 
     return {
         getAll: getAll,
-        add: add
+        add: add,
+        addListItem: addListItem
     }
 })();
 
 pokemonRepository.getAll().forEach(function (pokemon) {
-    let pokemonList = document.querySelector('.pokemon-list');
-    let listItem = document.createElement('li');
-    let button = document.createElement('button');
-    button.innerText = pokemon.name;
-    button.classList.add('pokemonName');
-    listItem.appendChild(button);
-    pokemonList.appendChild(listItem);
+    pokemonRepository.addListItem(pokemon);
 });
