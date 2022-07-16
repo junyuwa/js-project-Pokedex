@@ -1,5 +1,5 @@
 const pokemonRepository = (function () {
-    let pokemonList = [
+    let pokemonInfoList = [
         {
             name: 'Nidoran',
             category: ["poison", "pin"],
@@ -20,14 +20,18 @@ const pokemonRepository = (function () {
         }
     ];
     let getAll = function () {
-        return pokemonList;
+        return pokemonInfoList;
     }
     let add = function (item) {
         // if (typeof item === obejct && Object.keys === [name, category, weight, height]) {
-        pokemonList.push(item);
+        pokemonInfoList.push(item);
         // } else {
         //     alert('Please enter the right pokemon info');
         // }
+    };
+
+    let addListItem = function (pokemon) {
+
     };
 
     return {
@@ -36,9 +40,12 @@ const pokemonRepository = (function () {
     }
 })();
 
-
-function printPokemonList(pokemon) {
-    document.write(pokemon.name + '' + pokemon.height)
-};
-
-pokemonRepository.getAll.forEach(printPokemonList);
+pokemonRepository.getAll().forEach(function (pokemon) {
+    let pokemonList = document.querySelector('.pokemon-list');
+    let listItem = document.createElement('li');
+    let button = document.createElement('button');
+    button.innerText = pokemon.name;
+    button.classList.add('pokemonName');
+    listItem.appendChild(button);
+    pokemonList.appendChild(listItem);
+});
