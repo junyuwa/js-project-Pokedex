@@ -3,6 +3,7 @@ const pokemonRepository = (function () {
     let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
     let modalContainer = document.querySelector('#modal-container');
 
+    // for adding pokemon to the list
     let add = function (pokemon) {
         if (typeof pokemon === 'object' && 'name' in pokemon && 'detailsUrl' in pokemon) {
             pokemonInfoList.push(pokemon);
@@ -10,10 +11,6 @@ const pokemonRepository = (function () {
             alert('Please enter the right pokemon info');
         };
     };
-
-    // function showDetails(pokemon) {
-    //     console.log(pokemon.name);
-    // }
 
     let getAll = function () {
         return pokemonInfoList;
@@ -25,17 +22,19 @@ const pokemonRepository = (function () {
         let listItem = document.createElement('li');
         let button = document.createElement('button');
         button.innerText = pokemon.name;
-        button.classList.add('pokemonName', 'show-modal');
+        button.classList.add('pokemonName');
         listItem.appendChild(button);
         pokemonList.appendChild(listItem);
-        // click on button to show details in console
+        // click on button to show details in modal
         button.addEventListener('click', function (event) {
             showModal(pokemon);
         });
     };
 
     function loadList() {
+        // get data from api
         return fetch(apiUrl).then(function (response) {
+            //  return the data in json to be passed on to the next callback
             return response.json();
         }).then(function (json) {
             json.results.forEach(function (pokemon) {
@@ -64,43 +63,63 @@ const pokemonRepository = (function () {
         });
     }
 
+    // add a modal to show info
     function showModal(pokemon) {
+        // load details first and chain the next callback to it
+        loadDetails(pokemon)
+            .then(() => {
+                // clears the elements created otehrwise they will appear multiple times with multiple clicks
+                modalContainer.innerHTML = '';
 
-        loadDetails(pokemon).then(function () {
-            // clears the elements created otehrwise they will appear multiple times with multiple clicks
-            modalContainer.innerHTML = '';
-        });
+                let modal = document.createElement('div');
+                modal.classList.add('modal');
 
+                let titleElement = document.createElement('h1');
+                titleElement.innerText = `${pokemon.name}`;
 
-        let modal = document.createElement('div');
-        modal.classList.add('modal');
+                let contentElement = document.createElement('p');
+                contentElement.innerText = `Height:${pokemon.height}`;
 
-        let titleElement = document.createElement('h1');
-        titleElement.innerText = `${pokemon.name}`;
+                let imageElement = document.createElement('p');
+                imageElement.innerHTML = `<img src=${pokemon.imageUrl} alt=${pokemon.name}>`;
 
-        let contentElement = document.createElement('p');
-        contentElement.innerText = `Height:${pokemon.height}`;
+                let closeButton = document.createElement('button');
+                closeButton.classList.add('modal-close');
+                closeButton.innerText = 'Close';
+                closeButton.addEventListener('click', hideModal);
 
-        let imageElement = document.createElement('p');
-        imageElement.innerHTML = `<img src=${pokemon.imageUrl} alt=${pokemon.name}>`;
+                modal.appendChild(titleElement);
+                modal.appendChild(contentElement);
+                modal.appendChild(imageElement);
+                modal.appendChild(closeButton);
+                modalContainer.appendChild(modal);
 
-        let closeButton = document.createElement('button');
-        closeButton.classList.add('modal-close');
-        closeButton.innerText = 'Close';
-        closeButton.addEventListener('click', hideModal);
-
-        modal.appendChild(titleElement);
-        modal.appendChild(contentElement);
-        modal.appendChild(imageElement);
-        modal.appendChild(closeButton);
-        modalContainer.appendChild(modal);
-
-        modalContainer.classList.add('is-visible');
+                modalContainer.classList.add('is-visible');
+            });
     }
 
     function hideModal() {
         modalContainer.classList.remove('is-visible');
     };
+
+    // using esc key to exit modal
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
+            hideModal();
+        }
+    });
+
+    modalContainer.addEventListener('click', (e) => {
+        // Since this is also triggered when clicking INSIDE the modal
+        // We only want to close if the user clicks directly on the overlay
+        let target = e.target;
+        if (target === modalContainer) {
+            hideModal();
+        }
+    });
+    // document.querySelector('.pokemonName').addEventListener('click', () => {
+    //     showModal(pokemon);
+    // });
 
     return {
         getAll: getAll,
@@ -113,19 +132,8 @@ const pokemonRepository = (function () {
     }
 })();
 
-
 pokemonRepository.loadList().then(function () {
     pokemonRepository.getAll().forEach(function (pokemon) {
         pokemonRepository.addListItem(pokemon);
     });
 });
-
-window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
-        hideModal();
-    }
-});
-
-// document.querySelector('.show-modal').addEventListener('click', () => {
-//     showModal(pokemon);
-// });
