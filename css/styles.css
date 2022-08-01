@@ -1,6 +1,9 @@
+.pokemon-list {
+    list-style: none;
+}
+
 .pokemonName {
     align-items: center;
-    background-color: #0A66C2;
     border: 0;
     border-radius: 100px;
     box-sizing: border-box;
@@ -30,7 +33,7 @@
 
 .pokemonName:hover,
 .pokemonName:focus {
-    background-color: #16437E;
+    background-color: #077a25;
     color: #ffffff;
 }
 
