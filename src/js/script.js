@@ -8,7 +8,7 @@ const pokemonRepository = (function () {
             pokemonInfoList.push(pokemon);
         } else {
             alert('Please enter the right pokemon info');
-        };
+        }
     };
 
     let getAll = function () {
