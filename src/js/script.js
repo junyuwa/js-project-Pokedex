@@ -16,24 +16,31 @@ const pokemonRepository = (function () {
     };
 
     let addListItem = function (pokemon) {
-        // add the list of pokemon to dom, created buttons for each pokemon
-        let pokemonList = document.querySelector('.pokemon-list');
+        pokemonRepository.loadDetails(pokemon).then(function () {
 
-        let listItem = document.createElement('li');
-        listItem.classList.add('list-group-item');
+            var $row = $(".row");
 
-        let button = document.createElement('button');
-        button.classList.add('btn-success');
-        button.innerText = pokemon.name;
-        button.classList.add('pokemonName');
-        button.setAttribute("data-toggle", "modal");
-        button.setAttribute("data-target", "#pokemon-modal");
+            var $card = $('<div class="card" style="width:400px"></div>');
+            var $image = $(
+                '<img class="card-img-top" alt="Card image" style="width:20%" />'
+            );
+            $image.attr("src", pokemon.imageUrlFront);
+            var $cardBody = $('<div class="card-body"></div>');
+            var $cardTitle = $("<h4 class='card-title' >" + pokemon.name + "</h4>");
+            var $seeProfile = $(
+                '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">See Profile</button>'
+            );
 
-        listItem.appendChild(button);
-        pokemonList.appendChild(listItem);
-        // click on button to show details in modal
-        button.addEventListener('click', function (event) {
-            showDetails(pokemon);
+            $row.append($card);
+            //Append the image to each card
+            $card.append($image);
+            $card.append($cardBody);
+            $cardBody.append($cardTitle);
+            $cardBody.append($seeProfile);
+
+            $seeProfile.on("click", function (event) {
+                showDetails(pokemon);
+            });
         });
     };
 
@@ -61,7 +68,7 @@ const pokemonRepository = (function () {
             return response.json();
         }).then(function (details) {
             //add the details to the item
-            item.imageUrl = details.sprites.front_default;
+            item.imageUrlFront = details.imageUrlFront;
             item.height = details.height;
             item.weight = details.weight;
             item.types = details.types.map((type) => type.type.name).join(',');
@@ -88,8 +95,8 @@ const pokemonRepository = (function () {
         modalBody.empty();
 
         let nameElement = $('<h1>' + pokemon.name + '</h1>');
-        let imageElement = $('<img class="pokemon-img">')
-        imageElement.attr("src", pokemon.imageUrl);
+        let imageElement = $('<img class="pokemon-img" style="width:60%">')
+        imageElement.attr("src", pokemon.imageUrlFront);
         let heightElement = $('<p>' + 'Height : ' + pokemon.height + '</p>');
         let weightElement = $('<p>' + 'Weight : ' + pokemon.weight + '</p>');
         let typeElement = $('<p>' + 'Types : ' + pokemon.types + '</p>');
