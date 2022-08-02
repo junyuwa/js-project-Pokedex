@@ -18,27 +18,28 @@ const pokemonRepository = (function () {
     let addListItem = function (pokemon) {
         pokemonRepository.loadDetails(pokemon).then(function () {
 
-            let $row = $(".row");
+            let row = $(".row");
+            // $row.classList.add('d-flex', 'justify-content-center');
 
-            let $card = $('<div class="card" style="width:400px"></div>');
-            let $image = $(
+            let card = $('<div class="card" style="width:400px"></div>');
+            let image = $(
                 '<img class="card-img-top" alt="Card image" style="width:20%" />'
             );
-            $image.attr("src", pokemon.imageUrlFront);
-            let $cardBody = $('<div class="card-body"></div>');
-            let $cardTitle = $("<h4 class='card-title' >" + pokemon.name + "</h4>");
-            let $seeProfile = $(
+            image.attr("src", pokemon.imageUrlFront);
+            let cardBody = $('<div class="card-body"></div>');
+            let cardTitle = $("<h4 class='card-title' >" + pokemon.name + "</h4>");
+            let seeProfile = $(
                 '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pokemon-modal">See Profile</button>'
             );
 
-            $row.append($card);
+            row.append(card);
             //Append the image to each card
-            $card.append($image);
-            $card.append($cardBody);
-            $cardBody.append($cardTitle);
-            $cardBody.append($seeProfile);
+            card.append(image);
+            card.append(cardBody);
+            cardBody.append(cardTitle);
+            cardBody.append(seeProfile);
 
-            $seeProfile.on("click", function (event) {
+            seeProfile.on("click", function (event) {
                 showDetails(pokemon);
             });
         });
