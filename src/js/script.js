@@ -19,22 +19,21 @@ const pokemonRepository = (function () {
         pokemonRepository.loadDetails(pokemon).then(function () {
 
             let row = $(".row");
-            // $row.classList.add('d-flex', 'justify-content-center');
 
-            let card = $('<div class="card" style="width:400px"></div>');
-            let image = $(
-                '<img class="card-img-top" alt="Card image" style="width:20%" />'
+            let card = $('<div class="card text-center" style="width:400px"></div>');
+            let imageFront = $(
+                '<img class="card-img-top d-inline" alt="Card image" style="width:30%" />'
             );
-            image.attr("src", pokemon.imageUrlFront);
+            imageFront.attr("src", pokemon.imageUrlFront);
             let cardBody = $('<div class="card-body"></div>');
-            let cardTitle = $("<h4 class='card-title' >" + pokemon.name + "</h4>");
+            let cardTitle = $("<h4 class='card-title text-capitalize' >" + pokemon.name + "</h4>");
             let seeProfile = $(
                 '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pokemon-modal">See Profile</button>'
             );
 
             row.append(card);
             //Append the image to each card
-            card.append(image);
+            card.append(imageFront);
             card.append(cardBody);
             cardBody.append(cardTitle);
             cardBody.append(seeProfile);
@@ -70,6 +69,7 @@ const pokemonRepository = (function () {
         }).then(function (details) {
             //add the details to the item
             item.imageUrlFront = details.sprites.front_default;
+            item.imageUrlBack = details.sprites.back_default;
             item.height = details.height;
             item.weight = details.weight;
             item.types = details.types.map((type) => type.type.name).join(',');
@@ -95,16 +95,19 @@ const pokemonRepository = (function () {
         modalTitle.empty();
         modalBody.empty();
 
-        let nameElement = $('<h1>' + pokemon.name + '</h1>');
-        let imageElement = $('<img class="pokemon-img" style="width:60%">')
-        imageElement.attr("src", pokemon.imageUrlFront);
+        let nameElement = $('<h1 class="text-capitalize">' + pokemon.name + '</h1>');
+        let imageFrontElement = $('<img class="pokemon-img" style="width:30%">')
+        imageFrontElement.attr("src", pokemon.imageUrlFront);
+        let imageBackElement = $('<img class="pokemon-img" style="width:30%">')
+        imageBackElement.attr("src", pokemon.imageUrlBack);
         let heightElement = $('<p>' + 'Height : ' + pokemon.height + '</p>');
         let weightElement = $('<p>' + 'Weight : ' + pokemon.weight + '</p>');
         let typeElement = $('<p>' + 'Types : ' + pokemon.types + '</p>');
         let abilitiesElement = $('<p>' + 'Abilities : ' + pokemon.abilities + '</p>');
 
         modalTitle.append(nameElement);
-        modalBody.append(imageElement);
+        modalBody.append(imageFrontElement);
+        modalBody.append(imageBackElement);
         modalBody.append(heightElement);
         modalBody.append(weightElement);
         modalBody.append(typeElement);

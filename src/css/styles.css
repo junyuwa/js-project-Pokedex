@@ -1,4 +1,4 @@
-.pokemon-list {
+/* .pokemon-list {
     list-style: none;
 }
 
@@ -46,9 +46,14 @@
     cursor: not-allowed;
     background: rgba(0, 0, 0, .08);
     color: rgba(0, 0, 0, .3);
-}
+} */
 
 html,
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Mouse Memoirs', sans-serif;
+    ;
+}
+
+.navbar {
+    background-color: #2A6DB1;
 }
