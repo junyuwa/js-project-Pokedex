@@ -20,7 +20,7 @@ const pokemonRepository = (function () {
 
             let row = $(".row");
 
-            let card = $('<div class="card d-flex text-center justify-content-space-around" style="width:400px"></div>');
+           let card = $('<div class="card text-center card-container" style="width:400px"></div>');
             let imageFront = $(
                 '<img class="card-img-top d-inline" alt="Card image" style="width:30%" />'
             );
