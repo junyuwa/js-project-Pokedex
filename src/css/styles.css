@@ -1,10 +1,18 @@
-
 html,
 body {
     font-family: 'Mouse Memoirs', sans-serif;
-    ;
+    background-color: #F7C50B;
 }
 
 .navbar {
     background-color: #2A6DB1;
+}
+
+.card-container {
+    align-items: center;
+    margin: auto;
+}
+
+.pokemonlist-container {
+    justify-content: center;
 }
